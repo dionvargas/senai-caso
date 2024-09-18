@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Análise dos Dados{% endblock %}
+
+{% block content %}
+<h1>Análise de dados</h1>
+
+<form method="post">
+    <label>Sensor 1
+        <select name="sensor1">
+            {% for data in data_sensor_1 %}
+            <option value="{{ data }}">{{ data }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Sensor 2
+        <select name="sensor2">
+            {% for data in data_sensor_2 %}
+            <option value="{{ data }}">{{ data }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Sensor 3
+        <select name="sensor3">
+            {% for data in data_sensor_3 %}
+            <option value="{{ data }}">{{ data }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Sensor 4
+        <select name="sensor4">
+            {% for data in data_sensor_4 %}
+            <option value="{{ data }}">{{ data }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Sensor 5
+        <select name="sensor5">
+            {% for data in data_sensor_5 %}
+            <option value="{{ data }}">{{ data }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <button type="submit">Gerar Gráfico</button>
+</form>
+<div>{{ graph_html|safe }}</div>
+{% endblock %}
