@@ -76,7 +76,7 @@ def analise():
     df_graph['S4-C' + selected_sensor4] = df_data4[int(selected_sensor4)]
     df_graph['S5-C' + selected_sensor5] = df_data5[int(selected_sensor5)]
 
-    fig = px.line(df_graph, x=range(0,df_graph.shape[0]), y=df_graph.columns)
+    fig = px.line(df_graph, x=df_graph.index/df_graph.shape[0]*5, y=df_graph.columns)
     fig.update_layout(
         xaxis_title="t(s)",
         yaxis_title="Valor",
@@ -95,7 +95,6 @@ def tratamento():
         dados_tratados = False
 
     if request.method == 'POST':
-        print("É POST")
         if dados_tratados:
             for file_name in os.listdir("./dados_tratados"):
                 file_path = os.path.join("./dados_tratados", file_name)
