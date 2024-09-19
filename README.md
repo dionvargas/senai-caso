@@ -12,7 +12,6 @@ Este projeto utiliza técnicas de inteligência artificial para classificar dado
 
 - Instalação
 - Uso
-- Estrutura do Projeto
 - Funcionalidades
 - Contribuição
 - Licença
@@ -71,4 +70,4 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para m
 ## 📞 Contato
 Dionathan Luan de Vargas - @dionvargas - dionathan_vargas@hotmail.com
 
-Link do Projeto: https://github.com/dionvargas/caso-senai
+Link do Projeto: https://github.com/dionvargas/senai-caso
