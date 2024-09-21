@@ -1,11 +1,134 @@
 {% extends "base.html" %}
 
-{% block title %}Estudo de Caso - SENAI{% endblock %}
+{% block title %}Análise dos Dados{% endblock %}
 
 {% block content %}
-<h1>Estudo de Caso - SENAI</h1>
-<ul>
-    <li><a href="/analise">Etapa 1: Análise de dados</a></li>
-    <li><a href="/tratamento">Etapa 2: Tratamento dos dados</a></li>
-</ul>
+<h1>Análise de dados</h1>
+
+<div class="container mt-5">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="graph-tab" data-toggle="tab" href="#graph" role="tab" aria-controls="graph"
+                aria-selected="true">Análise dos sinais</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="table-classe-tab" data-toggle="tab" href="#table-classe" role="tab"
+                aria-controls="table-classe" aria-selected="true">Tabela de classes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="table-sensor-tab" data-toggle="tab" href="#table-sensor" role="tab"
+                aria-controls="table-sensor" aria-selected="true">Tabela de sensores</a>
+        </li>
+
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="graph" role="tabpanel" aria-labelledby="graph-tab">
+            <form method="post">
+                <label>Sensor 1
+                    <select name="canal_sensor1">
+                        {% for data in data['sensor1']['canais'] %}
+                        <option value="{{ data }}">{{ data }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>Sensor 2
+                    <select name="canal_sensor2">
+                        {% for data in data['sensor2']['canais'] %}
+                        <option value="{{ data }}">{{ data }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>Sensor 3
+                    <select name="canal_sensor3">
+                        {% for data in data['sensor3']['canais'] %}
+                        <option value="{{ data }}">{{ data }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>Sensor 4
+                    <select name="canal_sensor4">
+                        {% for data in data['sensor4']['canais'] %}
+                        <option value="{{ data }}">{{ data }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>Sensor 5
+                    <select name="canal_sensor5">
+                        {% for data in data['sensor5']['canais'] %}
+                        <option value="{{ data }}">{{ data }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <button type="submit">Gerar Gráfico</button>
+            </form>
+            <div>{{ graph_html|safe }}</div>
+            <p>*Os valores NaN foram substituidos por 0 para que possam ser plotados no gráfico.</p>
+        </div>
+        <div class="tab-pane fade" id="table-classe" role="tabpanel" aria-labelledby="table-classe-tab">
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        {% for classes in data_classes.keys()%}
+                        <td>{{classes}}</td>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Quantidade</th>
+                        {% for classes in data_classes.keys()%}
+                        <td>{{data_classes[classes]}}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="table-sensor" role="tabpanel" aria-labelledby="table-sensor-tab">
+
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Formato</th>
+                        <th>Minimo</th>
+                        <th>Máximo</th>
+                        <th>Infinito</th>
+                        <th>NaN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sensor in data.keys()%}
+                    <tr>
+                        <th scope="row">{{ sensor }}</th>
+                        <td>{{data[sensor]['formato']}}</td>
+                        <td>{{data[sensor]['minimo']}}</td>
+                        <td>{{data[sensor]['maximo']}}</td>
+                        <th>{%if data[sensor]['inf']%}
+                            <button type="button" class="btn btn-outline-success" disabled><i
+                                    class="bi bi-check2-circle"></i></button>
+                            {% else %}
+                            <button type="button" class="btn btn-outline-danger" disabled><i
+                                    class="bi bi-x-circle"></i></button>
+                            {% endif %}
+                        </th>
+                        <td>{%if data[sensor]['NaN']%}
+                            <button type="button" class="btn btn-outline-success" disabled><i
+                                    class="bi bi-check2-circle"></i></button>
+                            {% else %}
+                            <button type="button" class="btn btn-outline-danger" disabled><i
+                                    class="bi bi-x-circle"></i></button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
