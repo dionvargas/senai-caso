@@ -9,13 +9,13 @@ Este projeto visa desenvolver um sistema de manutenção preditiva para uma ind�
 ## 📄 Descrição
 
 1. **Coleta de Dados:** Dados de sensores instalados em uma máquinas foram coletados e armazenados em um banco de dados pela empresa. Os dados foram fornecido através de arquivos de extensão `.npy` e estão na pasta [dados](./dados).
-2. **Preparação dos Dados:** Os dados foram normalizados e organizados em um DataFrame do Pandas. As classes foram mapeadas para valores numéricos.
-3. **Divisão dos Dados:** Os dados foram divididos em conjuntos de treino e teste utilizando train_test_split do scikit-learn
-4. **Implementação do Modelo:** Uma rede neural foi implementada usando TensorFlow.
-5. **Avaliação do Modelo:** A performance do modelo foi avaliada no conjunto de teste, garantindo que ele generalize bem para novos dados. Em alguns testes atingiu uma acurácia de mais de 70%.
-6. **Visualização dos Resultados:** Resultados e métricas de performance foram visualizados para facilitar a interpretação e tomada de decisão.
-
 >- **Sensores:** Este projeto utiliza dados provenientes de 5 sensores diferentes. Cada sensor coleta aproximadamente 200 sinais com uma taxa de amostragem de 10kHz.
+2. **Análise exploratória dos dados:** Os dados foram analizados para entender sua distribuição e identificar padrões iniciais.
+3. **Preparação dos Dados:** Os dados foram normalizados e organizados em um DataFrame do Pandas. As classes foram mapeadas para valores numéricos.
+4. **Divisão dos Dados:** Os dados foram divididos em conjuntos de treino e teste utilizando train_test_split do scikit-learn
+5. **Implementação do Modelo:** Uma rede neural foi implementada usando TensorFlow.
+6. **Avaliação do Modelo:** A performance do modelo foi avaliada no conjunto de teste, garantindo que ele generalize bem para novos dados. Em alguns testes atingiu uma acurácia de mais de 70%.
+7. **Visualização dos Resultados:** Resultados e métricas de performance foram visualizados para facilitar a interpretação e tomada de decisão.
 
 ## 📚 Índice
 

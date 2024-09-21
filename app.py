@@ -4,6 +4,7 @@ import os
 import numpy as np
 import plotly.express as px
 import plotly.io as pio
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -22,8 +23,9 @@ def index():
     for i in range(len(valores_unicos)):
         data_classes[valores_unicos[i]] = contagens[i]
 
-    def resume_sensor(df_sensor):
+    def resume_sensor(df_sensor, nome):
         resumo = {
+            "nome": nome,
             "canais": df_sensor.columns.tolist(),
             "formato": df_sensor.shape,
             "minimo": df_sensor.min(axis=1).min(),
@@ -31,15 +33,28 @@ def index():
             "inf": np.isinf(df_sensor.values).any(),
             "NaN": df_sensor.isnull().values.any()
         }
+
+        # Gerando as imagens de histograma dos dataframes
+        # Ajustando o tamanho da figura
+        plt.figure(figsize=(16, 4))
+        # Gerando o histograma
+        df_sensor[i].hist(bins=500, grid=False)
+        # Montando o histograma
+        plt.xlabel('Valores')
+        plt.ylabel('Frequência')
+        plt.title(f'Histograma do {nome}')
+        # Salvando o histograma em um arquivo
+        plt.savefig(f'./static/images/histogram/{nome}.png')
+
         return resumo
 
     # Resumo dos dados
     data_sensores = {
-        "sensor1": resume_sensor(df_data1),
-        "sensor2": resume_sensor(df_data2),
-        "sensor3": resume_sensor(df_data3),
-        "sensor4": resume_sensor(df_data4),
-        "sensor5": resume_sensor(df_data5)
+        "sensor1": resume_sensor(df_data1, "Sensor 1"),
+        "sensor2": resume_sensor(df_data2, "Sensor 2"),
+        "sensor3": resume_sensor(df_data3, "Sensor 3"),
+        "sensor4": resume_sensor(df_data4, "Sensor 4"),
+        "sensor5": resume_sensor(df_data5, "Sensor 5")
     }
 
     # Substitui os NaN para zero para poderem ser plotados

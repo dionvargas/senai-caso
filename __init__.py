@@ -1,4 +1,3 @@
-import random
 import pandas as pd   
 import numpy as np 
 import tensorflow as tf
@@ -6,8 +5,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import seaborn as sns
-import matplotlib.pyplot as plt
 
 # ******************************************************************************************************
 # Preparação dos dados
@@ -26,11 +25,14 @@ df_sensor3 = pd.DataFrame(np.load('./dados/Dados_3.npy'))
 df_sensor4 = pd.DataFrame(np.load('./dados/Dados_4.npy'))
 df_sensor5 = pd.DataFrame(np.load('./dados/Dados_5.npy'))
 
-# Junta todos os dados de sensores em um único df
-inputs = pd.concat([df_sensor1, df_sensor2, df_sensor3, df_sensor5], axis=1)
-
 # ******************************************************************************************************************
 # Etapa 1: Pré-processamento
+
+# Substitui os valores acima de 1 do sensor 1 para 0
+df_sensor1 = df_sensor1.apply(np.vectorize(lambda x: 0 if x > 1 else x))
+
+# Junta todos os dados de sensores em um único df
+inputs = pd.concat([df_sensor1, df_sensor2, df_sensor3, df_sensor5], axis=1)
 
 # Substitui as entradas com NaN por zeros
 inputs = inputs.fillna(0)
@@ -82,6 +84,33 @@ print(f'Erro no conjunto de testes: {loss}')
 predictions = model.predict(inputs_test)
 predictions = np.argmax(predictions, axis=1)
 
+# Criando subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+# Gráfico de acurácia
+ax1.plot(training.history['sparse_categorical_accuracy'], label='Train Accuracy', marker='o')
+ax1.plot(training.history['val_sparse_categorical_accuracy'], label='Validation Accuracy', marker='s')
+ax1.set_title('Model Accuracy')
+ax1.set_xlabel('Epoch')
+ax1.set_ylabel('Accuracy')
+ax1.legend(loc='upper left')
+ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+# Gráfico de erro
+ax2.plot(training.history['loss'], label='Train Loss', marker='o')
+ax2.plot(training.history['val_loss'], label='Validation Loss', marker='s')
+ax2.set_title('Model Loss')
+ax2.set_xlabel('Epoch')
+ax2.set_ylabel('Loss')
+ax2.legend(loc='upper right')
+ax2.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+# Mostrando os gráficos
+plt.tight_layout()
+plt.savefig('./static/images/training.png')
+plt.show()
+
+
 # Calcular a matriz de confusão
 cm = confusion_matrix(targets_test, predictions)
 
@@ -91,4 +120,5 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=classes, yticklab
 plt.xlabel('Predicted')
 plt.ylabel('True')
 plt.title('Confusion Matrix')
+plt.savefig('./static/images/confusion-matrix.png')
 plt.show()

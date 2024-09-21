@@ -20,6 +20,10 @@
             <a class="nav-link" id="table-sensor-tab" data-toggle="tab" href="#table-sensor" role="tab"
                 aria-controls="table-sensor" aria-selected="true">Tabela de sensores</a>
         </li>
+        <li class="nav-item"></li>
+        <a class="nav-link" id="histogram-tab" data-toggle="tab" href="#histogram" role="tab" aria-controls="histogram"
+            aria-selected="true">Distribuição dos dados dos sensores</a>
+        </li>
 
     </ul>
 
@@ -104,7 +108,7 @@
                 <tbody>
                     {% for sensor in data.keys()%}
                     <tr>
-                        <th scope="row">{{ sensor }}</th>
+                        <th scope="row">{{data[sensor]['nome']}}</th>
                         <td>{{data[sensor]['formato']}}</td>
                         <td>{{data[sensor]['minimo']}}</td>
                         <td>{{data[sensor]['maximo']}}</td>
@@ -128,6 +132,16 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="tab-pane fade" id="histogram" role="tabpanel" aria-labelledby="histogram">
+            <div class="vertical-bar mx-3"></div>
+            {% for sensor in data.keys()%}
+            <div class="container-fluid">
+                <H3>{{data[sensor]['nome']}}</H3>
+                <img src="../static/images/histogram/{{data[sensor]['nome']}}.png" class="img-fluid w-100">
+            </div>
+            <div class="vertical-bar mx-3"></div>
+            {% endfor %}
         </div>
     </div>
 </div>
