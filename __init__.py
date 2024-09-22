@@ -9,7 +9,7 @@ from matplotlib.ticker import MaxNLocator
 import seaborn as sns
 
 # ******************************************************************************************************
-# Preparação dos dados
+# Etapa 1 - Coleta de Dados
 
 # Lê o arquivo dos estados de funcionamento dessa máquina
 targets = pd.DataFrame(np.load('./dados/Classes.npy', allow_pickle=True))
@@ -26,10 +26,16 @@ df_sensor4 = pd.DataFrame(np.load('./dados/Dados_4.npy'))
 df_sensor5 = pd.DataFrame(np.load('./dados/Dados_5.npy'))
 
 # ******************************************************************************************************************
-# Etapa 1: Pré-processamento
+# Etapa 2: Análise exploratória dos dados
+# Na aplicação web executando o arquivo app.py e abrindo o endereço http://127.0.0.1:5000/ no navegador
 
-# Substitui os valores acima de 1 do sensor 1 para 0
-df_sensor1 = df_sensor1.apply(np.vectorize(lambda x: 0 if x > 1 else x))
+# ******************************************************************************************************************
+# Etapa 3: Preparação dos Dados
+
+# Substitui os valores discrepantes por 0
+df_sensor1 = df_sensor1.apply(np.vectorize(lambda x: 0 if x > 0.5 or x < -0.5 else x))
+df_sensor2 = df_sensor2.apply(np.vectorize(lambda x: 0 if x > 1 or x < -1 else x))
+df_sensor3 = df_sensor3.apply(np.vectorize(lambda x: 0 if x > 1 or x < -1 else x))
 
 # Junta todos os dados de sensores em um único df
 inputs = pd.concat([df_sensor1, df_sensor2, df_sensor3, df_sensor5], axis=1)
@@ -43,11 +49,11 @@ scaler.fit(inputs)
 inputs = scaler.transform(inputs)
 
 # ******************************************************************************************************************
-# Divisão dos dados em conjuntos de treino e teste.
+# Etapa 4: Divisão dos Dados
 inputs_train, inputs_test, targets_train, targets_test = train_test_split(inputs, targets, test_size=0.2)
 
 # ******************************************************************************************************
-# Criando a rede neural
+# Etapa 5 - Implementação do Modelo
 model = tf.keras.models.Sequential()
 
 # Camada de entrada
@@ -69,16 +75,25 @@ model.add(tf.keras.layers.Dense(units=num_classes,
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['sparse_categorical_accuracy'])
 model.summary()
 
+
+# ******************************************************************************************************
+# Etapa 6 - Treinamento
+
 # Treinar a rede com early stopping
 early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', patience=10, restore_best_weights=True)
 
 # Treinando rede
 training = model.fit(inputs_train, targets_train, epochs=1000, batch_size=32, validation_split=0.2, callbacks=[early_stopping], verbose=1)
 
-# Avaliar o modelo
+# ******************************************************************************************************
+# Etapa 7 - Avaliação do Modelo
 loss, accuracy = model.evaluate(inputs_test, targets_test)
 print(f'Acurácia no conjunto de testes: {(accuracy*100):.2f}%')
 print(f'Erro no conjunto de testes: {loss}')
+
+
+# ******************************************************************************************************
+# Etapa 8 - Visualização dos Resultados
 
 # Prever os valores no conjunto de teste
 predictions = model.predict(inputs_test)
@@ -109,7 +124,6 @@ ax2.xaxis.set_major_locator(MaxNLocator(integer=True))
 plt.tight_layout()
 plt.savefig('./static/images/training.png')
 plt.show()
-
 
 # Calcular a matriz de confusão
 cm = confusion_matrix(targets_test, predictions)

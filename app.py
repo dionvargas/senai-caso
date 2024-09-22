@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import pandas as pd
-import os
 import numpy as np
 import plotly.express as px
 import plotly.io as pio

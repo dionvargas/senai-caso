@@ -14,8 +14,9 @@ Este projeto visa desenvolver um sistema de manutenção preditiva para uma ind�
 3. **Preparação dos Dados:** Os dados foram normalizados e organizados em um DataFrame do Pandas. As classes foram mapeadas para valores numéricos.
 4. **Divisão dos Dados:** Os dados foram divididos em conjuntos de treino e teste utilizando train_test_split do scikit-learn
 5. **Implementação do Modelo:** Uma rede neural foi implementada usando TensorFlow.
-6. **Avaliação do Modelo:** A performance do modelo foi avaliada no conjunto de teste, garantindo que ele generalize bem para novos dados. Em alguns testes atingiu uma acurácia de mais de 70%.
-7. **Visualização dos Resultados:** Resultados e métricas de performance foram visualizados para facilitar a interpretação e tomada de decisão.
+6. **Treinamento do Modelo:** Foi elaborada uma parada antecipada para que a rede não fique especializada nos dados de treinamento.
+7. **Avaliação do Modelo:** A performance do modelo foi avaliada no conjunto de teste, garantindo que ele generalize bem para novos dados. Em alguns testes atingiu uma acurácia de mais de 70%.
+8. **Visualização dos Resultados:** Resultados e métricas de performance foram visualizados para facilitar a interpretação e tomada de decisão.
 
 ## 📚 Índice
 
@@ -32,7 +33,7 @@ Siga os passos abaixo para configurar o ambiente e instalar as dependências nec
 
 ```bash
 # Clone o repositório
-git clone https://github.com/usuario/senai-caso.git
+git clone https://github.com/dionvargas/senai-caso.git
 
 # Entre no diretório do projeto
 cd senai-caso
@@ -75,12 +76,18 @@ python __init__.py
 - Classificação de sinais de sensores em 5 classes distintas.
 
 ## 🤝 Resultados
-A arquitetura proposta atingiu uma acurácia de 73.32% no conjunto de testes.
+Foi usado uma parada antecipada para que a rede não se especialize nos dados de treinamento. Abaixo é apresentada as curvas acurácia e de perda dos dados de treinamento e validação.
+![treinamento](./static/images/training.png)
+
+Por fim a matrix confusão dos dados de teste.
+![confusin-matrix](./static/images/confusion-matrix.png)
+
+A arquitetura proposta atingiu uma acurácia de 73.49% no conjunto de testes.
 
 ## 📜 Licença
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
 
 ## 📞 Contato
-Dionathan Luan de Vargas - @dionvargas - dionathan_vargas@hotmail.com
+Dionathan Luan de Vargas - [@dionvargas](https://github.com/dionvargas) - dionathan_vargas@hotmail.com
 
 Link do Projeto: https://github.com/dionvargas/senai-caso
